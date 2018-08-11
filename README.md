@@ -55,31 +55,27 @@
 			上述两种统计，可以有效防止刷单行为，正常的行为序列应当是较为平滑的点击序列，一旦出现峰值，如举报行为居多的，观看同一视频的，即可判定为刷单的特征
 
 		4.计算用户观看VIDEO的贡献序列
-			```python
-				def GongXianDu(df):
-				    d11 = df.set_index('video_id')
-				    d11['gongxian_rate'] = df.groupby('video_id').size() 
-				    d11['gongxian_rate'] = d11['gongxian_rate'] / d11['video_watched_times']
-				    meand = d11['gongxian_rate'].mean()
-				    sumd = d11['gongxian_rate'].sum()
-				    stdd = d11['gongxian_rate'].std()
-				    skeww = d11['gongxian_rate'].skew()
-				    kurtt = d11['gongxian_rate'].kurt()
-				return sumd,meand,stdd,skeww,kurtt
-				temp = train_act.groupby('user_id').apply(GongXianDu)
-	    		```
+			def GongXianDu(df):
+			    d11 = df.set_index('video_id')
+			    d11['gongxian_rate'] = df.groupby('video_id').size() 
+			    d11['gongxian_rate'] = d11['gongxian_rate'] / d11['video_watched_times']
+			    meand = d11['gongxian_rate'].mean()
+			    sumd = d11['gongxian_rate'].sum()
+			    stdd = d11['gongxian_rate'].std()
+			    skeww = d11['gongxian_rate'].skew()
+			    kurtt = d11['gongxian_rate'].kurt()
+			return sumd,meand,stdd,skeww,kurtt
+			temp = train_act.groupby('user_id').apply(GongXianDu)
 
 	    5.计算用户是否有追星行为
 	    	最喜欢的作者有无更新行为
 	    	用户看过的视频还有多少人爱看(区分小众与大众)
-	    	```python
-		    	def FavAuthorCreate(df):
-			    most_author = df.groupby('author_id').size().sort_values(ascending=False).index[0]
-			    create_video_num = len(df[df['author_id']==most_author]['video_id'].unique())
-			    watch_other_video_num = len(df[df['author_id']==most_author]['video_id'].unique())
-			    watch_other_video = 1 if watch_other_video_num>1 else 0
-			    return create_video_num , watch_other_video
-		```
+		def FavAuthorCreate(df):
+		    most_author = df.groupby('author_id').size().sort_values(ascending=False).index[0]
+		    create_video_num = len(df[df['author_id']==most_author]['video_id'].unique())
+		    watch_other_video_num = len(df[df['author_id']==most_author]['video_id'].unique())
+		    watch_other_video = 1 if watch_other_video_num>1 else 0
+		    return create_video_num , watch_other_video
 
 	对REGSITER表的挖掘
 		1.注册周期性，如周末的促销活动，最直观的Feature就是Week
