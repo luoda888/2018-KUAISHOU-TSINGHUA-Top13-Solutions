@@ -1,4 +1,4 @@
-# 2018-KUAISHOU-TSINGHUA-Top13Solutions
+# 2018-KUAISHOU-TSINGHUA-Top13-Solutions
 2018中国高校计算机大赛--大数据挑战赛 Top 13 Solutions
 
 #### 初赛A Top 2,初赛B Top 5
